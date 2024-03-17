@@ -1,0 +1,196 @@
+<?php 
+include 'connect.php';
+session_start();
+
+$sql = "SELECT * FROM `add_items`";
+$query = mysqli_query($conn,$sql);
+
+if(isset($_SESSION['username']) && isset($_SESSION['profile'])){
+    $adminName = $_SESSION['username'];
+    $adminProfile = $_SESSION['profile'];
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock</title>
+    <style>
+        .asideProduct{
+            display: flex;
+            flex-direction: column;
+            background: white;
+            width: 10%;
+            padding: 40px;
+            background-color: rgb(2, 2, 56);
+        }
+          .container .asideProduct a{
+            color: #eee;
+            text-decoration: none;
+            font-family: arial;
+            font-size: 15px;
+            margin-top: 30px;
+            border: 1px solid #eee;
+            padding: 10px 15px;
+            border-radius: 4px;
+        }
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            background-color: #eee;
+        }
+        .container{
+            display: flex;
+            height: 100vh;
+            gap: 2px;
+        }
+        .container .asideProduct{
+            display: flex;
+            flex-direction: column;
+            width: 10%;
+        }
+        .container .mainContainer{
+            padding: 40px;
+        }
+        /* table */
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #333;
+            text-align: left;
+            padding: 8px;
+        }
+        caption{
+            background: #333;
+            color: #eee;
+            padding: 10px;
+        }
+        button{
+            background: #333;
+            border: none;
+            border-radius: 10px;
+            color:#eee;
+            padding: 10px 40px;
+            margin-bottom: 20px;
+        }
+         /* Print-specific styles */
+         @media print {
+            body {
+                margin: 0;
+                background-color: #333;
+                color: #eee;
+            }
+            table {
+                width: 100%;
+            }
+
+            th, td {
+                border: 1px solid #000;
+                padding: 5px;
+            }
+        }
+        /* end of table */
+    </style>
+</head>
+<script>
+    if(window.history.replaceState){
+        window.history.replaceState(null,null,window.location.href);
+    }
+</script>
+<body>
+    <div class="container">
+       
+        <div   class="asideProduct">
+        <h2 style="color: #eee; font-family: arial; padding: 10px; ">Admin Panel</h2>
+            <a href="logout.php">Logout</a>
+        </div>
+        <div class="mainContainer">
+         <div style="display: flex;background-color: orangered;margin-bottom: 20px;gap: 20vw;align-items: center;border-radius: 10px;">
+         <div style="padding: 20px;color: #eee;border-radius: 10px;width: 60%;">
+            <h1>Hello, Chief ( <?php echo $adminName;?> )</h1>
+            <p>you are now intracting as  chief, Therefore you are now allowed to stockout products</p>
+            </div>
+            <div style="width: 100px;height: 100px;background-color: #eee;border-radius: 50%;display: flex;justify-content:center;align-items: center;">
+              <?php echo '<img style="width: 100%;border-radius: 50%;border: 4px solid #eee;" src="./profile/'.$adminProfile.'">'; ?>
+            </div>
+         </div>
+         <div>
+
+             <button><a href="user.php" style="color: #eee;text-decoration: none;font-weight: bold;">all view</a></button>
+             
+            <button><a href="out.php" style="color: #eee;text-decoration: none;font-weight: bold;">Stock out</a></button>
+         </div>
+        <table id="dataTable">
+            <?php
+                if($query){
+                    if(mysqli_num_rows($query) > 0){
+                        echo '
+                        <caption>Ecole Primaire Sainte Anne Stock</caption>
+                        <tr>
+                            <th>No</th>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Total Price</th>
+                            <th>Date</th>
+                        </tr>';
+
+                        $i = 1;
+                        while($row = mysqli_fetch_assoc($query)){
+                             $itemId = $row['item_id'];
+                             echo '
+                             <tr>
+                                 <td>'.$i.'</td>
+                                 <td>'.$row['item_name'].'</td>
+                                  ';
+ 
+                                 if($row['quantity'] < 500){
+                                     echo '<td style="color: red;">'.$row['quantity'].' '.'Kg</td>';
+                                 }
+                                 else{
+                                     echo '<td style="color: green;">'.$row['quantity'].' '.'Kg</td>';
+                                 }
+                                 echo '
+                                 <td>'.$row['totalPrice'].' Rwf</td>
+                                 <td>'.$row['date'].'</td>
+                             </tr>';
+                        $i++;
+                        }
+                 }
+              }
+            ?>
+        </table><br>
+        <button onclick="printTable()">Print Table</button>
+        <div style="border-top: 2px solid orangered;height: 5vh;padding: 20px;display: flex;flex-direction: column;justify-content: center;align-items: center;font-size: 11px;font-family: arial;">
+         Ecole Primaire Sainte Anne &copy; 2024 all right is reserved <br>
+         <p>
+         Developed by <a href="info.php">NIYOMWUNGERI Josue</a>
+         </p>
+        </div>
+        </div>
+    </div>
+    <script>
+    function printTable() {
+        var printWindow = window.open('', '_blank');
+        printWindow.document.write('<html><head><title>Print Table</title>');
+        printWindow.document.write('<link rel="stylesheet" type="text/css" href="styles.css">'); // Link to external styles if needed
+        printWindow.document.write('</head><body>');
+        printWindow.document.write(document.getElementById('dataTable').outerHTML);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+    }
+</script>
+</body>
+</html>
+<?php
+}
+else{
+    header("location:index.php");
+}
+?>

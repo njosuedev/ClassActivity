@@ -1,0 +1,79 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+html{
+    color-scheme: dark;
+}
+body{
+    background-color: #eee;
+}
+.container{
+    background: #ddd;
+    display: flex;
+    height: 100vh;
+    gap: 2px;
+}
+.container .asideProduct{
+    display: flex;
+    flex-direction: column;
+    background: white;
+    width: 10%;
+    padding: 40px;
+}
+.container .mainContainer{
+    background: white;
+    width: 90%;
+    padding: 40px;
+}
+
+/* table */
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #333;
+    text-align: left;
+    padding: 8px;
+}
+caption{
+    background: #333;
+    color: #eee;
+    padding: 10px;
+}
+button{
+    background: #333;
+    border: none;
+    border-radius: 10px;
+    color:#eee;
+    padding: 10px 40px;
+    margin-bottom: 20px;
+}
+ /* Print-specific styles */
+ @media print {
+    body {
+        margin: 0;
+        background-color: #333;
+        color: #eee;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    th, td {
+        border: 1px solid #000;
+        padding: 5px;
+    }
+}
+button{
+  margin-top: 10px;
+}
+input{
+  border: none;
+  outline: none;
+}
+/* end of table */
