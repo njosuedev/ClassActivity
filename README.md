@@ -1,2 +1,7 @@
-# NIYOMWUNGERI_Josue_National_Practical_Exam
-class activity ( Stock management system )
+# Employees Ms
+ <p>
+   Ms stand for Management system php app helps to manage empoyees
+   and to tracking their daily activities
+ </p>
+ <a href="https://resume-jet-zeta.vercel.app/">Resume-josue</a>
+ # Thanks!
