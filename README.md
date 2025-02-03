@@ -1,7 +1,5 @@
 # Employees Ms
  <p>
-   Ms stand for Management system php app helps to manage empoyees
-   and to tracking their daily activities
+   This is Management system php app helps to manage empoyees
+   and to tracking their daily activities. It was my 2024 academic year class activity
  </p>
- <a href="https://resume-jet-zeta.vercel.app/">Resume-josue</a>
- # Thanks!
